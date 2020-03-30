@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IPL Match Predictor</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<style type="text/css">
+		body,html{
+			background: url('stadium.jpg');
+			height: 100%;
+			background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+		}
+		.divform{
+			background: red;
+
+		}
+		/* Style inputs, select elements and textareas */
+input[type=text], select, textarea{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Style the label to display next to the inputs */
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+/* Style the container */
+.container {
+  border-radius: 5px;
+  background-color: #E12E08;
+  padding: 20px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+	</style>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+
+</head>
+<body>
+	    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="#">IPL Match Predictor</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Teams</a>
+      </li>
+       </ul>
+    </div>
+</nav>
+<div class="container">
+		<h2 style="font-family: 'Pacifico';"><center>Fill and Predict the Result</center></h2>
+		<center><h1>{{prediction}}</h1></center>
+	<br><br><br>
+  <form action="/submit" method="POST">
+    <div class="row">
+      <div class="col-25">
+        <label for="country">&nbsp;&nbsp;&nbsp;Home Team</label>
+      </div>
+      <div class="col-75">
+        <select id="home" name="Home" onchange="if (this.selectedIndex) city();">
+        	<option value="none">--Select--</option>
+          <option value="1">Mumbai Indians</option>
+          <option value="2">Kolkata Knight Riders</option>
+          <option value="3">Royal Challengers Bangalore</option>
+          <option value="5">Chennai Super Kings</option>
+          <option value="6">Rajasthan Royals</option>
+          <option value="7">Delhi Daredevils</option>
+          <option value="9">Kings XI Punjab</option>
+          <option value="10">Sunrisers Hyderabad</option>
+           </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country">&nbsp;&nbsp;&nbsp;Other Team</label>
+      </div>
+      <div class="col-75">
+        <select id="other" name="Other" >
+          <option value="1">Mumbai Indians</option>
+          <option value="2">Kolkata Knight Riders</option>
+          <option value="3">Royal Challengers Bangalore</option>
+          <option value="5">Chennai Super Kings</option>
+          <option value="6">Rajasthan Royals</option>
+          <option value="7">Delhi Daredevils</option>
+          <option value="9">Kings XI Punjab</option>
+          <option value="10">Sunrisers Hyderabad</option>
+          </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country">&nbsp;&nbsp;&nbsp;Toss Winner</label>
+      </div>
+      <div class="col-75">
+        <select id="win" name="win" onclick="winners()">
+        		<option id="o1">	</option>
+        		<option id="o2">	</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country">&nbsp;&nbsp;&nbsp;City</label>
+      </div>
+      <div class="col-75">
+        <select id="cit" name="citi">
+        	<option value="" id="ss"></option>
+        </select>
+      
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country">&nbsp;&nbsp;&nbsp;Toss Decision</label>
+      </div>
+      <div class="col-75">
+        <select id="deci" name="deci">
+          <option value="0">Batting</option>
+          <option value="10">Fielding</option>
+          
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <input type="submit" value="Submit">
+    </div>
+ <p id="demo">	</p>
+  </form>
+</div>
+<script type="text/javascript">
+     var i=document.getElementById("home");
+		var j=document.getElementById("ss");
+		var k=document.getElementById("other");
+		var l=document.getElementById("win");
+   
+	function city(){
+			var cities=new Array("Mumbai","Kolkata","Bangalore","Chennai","Jaipur","Delhi","Dharmasala","Hyderabad");
+			var indice=new Array(6,7,5,11,10,8,4,1);
+
+		var s=i.selectedIndex;
+
+		j.value=indice[s];
+		j.text=cities[s];		
+	}
+	function winners(){
+		
+    var teamnames=new Array("Mumbai Indians","Kolkata Knight Riders","Royal Challengers Bangalore","Chennai Super Kings",
+                 "Rajasthan Royals","Delhi Daredevils","Kings XI Punjab",
+                 "Sunrisers Hyderabad");
+			var option1 = document.getElementById("o1");
+			option1.value=i.value;
+			var t1=i.selectedIndex;
+			option1.text=teamnames[t1];
+			var option2 = document.getElementById("o2");
+			option2.value=k.value;
+			var t2=k.selectedIndex;
+			option2.text = teamnames[t2];
+			
+
+			
+	}
+	
+</script>
+</body>
+</html>
